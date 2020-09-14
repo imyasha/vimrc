@@ -1,0 +1,30 @@
+export TERM=xterm-256color
+
+test -s ~/.alias && . ~/.alias || true
+
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+export EDITOR=/usr/bin/vim
+
+#####################################################
+
+export PS1='[\u@\H:\w]\$'
+export LANG=US_EN
+#export LANG=en_US.utf8
+
+function mytags
+{
+	ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+    rm -rf ./TAGS
+    touch ./TAGS
+}
+
+function mycscope
+{
+    find . -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.m" -o -name "*.mm" -o -name "*.java" -o -name "*.py" > cscope.files
+    cscope -bkq
+    rm -rf ./CSCOPE.out
+    rm -rf ./need_CSCOPE
+    touch ./need_CSCOPE
+}
