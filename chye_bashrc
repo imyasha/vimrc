@@ -1,0 +1,51 @@
+export TERM=xterm-256color
+
+test -s ~/.alias && . ~/.alias || true
+
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -i'
+export EDITOR=/usr/bin/vim
+
+#####################################################
+
+export PS1='[\u@\H:\w]\$'
+export LANG=US_EN
+#export LANG=en_US.utf8
+
+export SCREENDIR=$HOME/.screen
+[ -d $SCREENDIR ] || mkdir -p -m 700 $SCREENDIR
+
+function _myctags
+{
+	ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+    rm -rf ./TAGS
+    touch ./TAGS
+}
+
+function _mycscope
+{
+    #find . -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.m" -o -name "*.mm" -o -name "*.java" -o -name "*.py" > cscope.files
+    find . -name "*.h" -o -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.m" -o -name "*.mm" -o -name "*.java" -o -name "*.py" -o -name "*.go" > cscope.files
+    cscope -bkq
+    rm -rf ./CSCOPE.out
+    rm -rf ./need_CSCOPE
+    touch ./need_CSCOPE
+}
+
+function myaddtags
+{
+    _myctags
+    _mycscope
+}
+
+function myremovetags
+{
+    rm -rf ./cscope.in.out cscope.po.out 
+    rm -rf ./cscope.files
+    rm -rf ./CSCOPE.out ./cscope.out
+    rm -rf ./CSCOPE.out.in ./CSCOPE.out.po
+    rm -rf ./cscope_add_file 
+    rm -rf ./need_CSCOPE
+    rm -rf ./TAGS ./tags
+}
